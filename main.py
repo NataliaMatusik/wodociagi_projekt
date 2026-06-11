@@ -8,13 +8,16 @@ def dodaj_przedsiebiorstwo():
     nazwa = entry_nazwa.get()
     miasto = entry_miasto.get()
     liczba_klientow = entry_liczba_klientow.get()
+    x = entry_x_przedsiebiorstwa.get()
+    y = entry_y_przedsiebiorstwa.get()
 
     service.dodaj_przedsiebiorstwo(
         nazwa,
         miasto,
-        liczba_klientow
+        liczba_klientow,
+        x,
+        y
     )
-
     listbox_przedsiebiorstwa.delete(0, tk.END)
 
     for przedsiebiorstwo in service.pobierz_wszystkie():
@@ -23,6 +26,8 @@ def dodaj_przedsiebiorstwo():
     entry_nazwa.delete(0, tk.END)
     entry_miasto.delete(0, tk.END)
     entry_liczba_klientow.delete(0, tk.END)
+    entry_x_przedsiebiorstwa.delete(0, tk.END)
+    entry_y_przedsiebiorstwa.delete(0, tk.END)
 
 def usun_przedsiebiorstwo():
     zaznaczenie = listbox_przedsiebiorstwa.curselection()
@@ -155,6 +160,16 @@ entry_miasto = tk.Entry(ramka_formularz)
 label_liczba_klientow = tk.Label(ramka_formularz, text="Liczba klientów:")
 entry_liczba_klientow = tk.Entry(ramka_formularz)
 
+
+
+label_x_przedsiebiorstwa = tk.Label(ramka_formularz, text="X:")
+entry_x_przedsiebiorstwa = tk.Entry(ramka_formularz)
+
+label_y_przedsiebiorstwa = tk.Label(ramka_formularz, text="Y:")
+entry_y_przedsiebiorstwa = tk.Entry(ramka_formularz)
+
+
+
 label_nazwa.grid(row=1, column=0, sticky="w")
 entry_nazwa.grid(row=1, column=1)
 
@@ -164,6 +179,15 @@ entry_miasto.grid(row=2, column=1)
 label_liczba_klientow.grid(row=3, column=0, sticky="w")
 entry_liczba_klientow.grid(row=3, column=1)
 
+
+label_x_przedsiebiorstwa.grid(row=4, column=0, sticky="w")
+entry_x_przedsiebiorstwa.grid(row=4, column=1)
+
+label_y_przedsiebiorstwa.grid(row=5, column=0, sticky="w")
+entry_y_przedsiebiorstwa.grid(row=5, column=1)
+
+
+
 button_dodaj = tk.Button(
     ramka_formularz,
     text="Dodaj przedsiębiorstwo",
@@ -171,10 +195,10 @@ button_dodaj = tk.Button(
 )
 
 button_dodaj.grid(
-    row=4,
+    row=6,
     column=0,
     columnspan=2,
-    pady=10
+    pady=20
 )
 
 button_usun = tk.Button(
@@ -184,7 +208,7 @@ button_usun = tk.Button(
 )
 
 button_usun.grid(
-    row=5,
+    row=7,
     column=0,
     columnspan=2,
     pady=5
