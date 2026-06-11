@@ -57,6 +57,52 @@ def usun_przedsiebiorstwo():
         service.przedsiebiorstwa.pop(indeks)
         odswiez_liste_przedsiebiorstw()
 
+def edytuj_przedsiebiorstwo():
+    zaznaczenie = listbox_przedsiebiorstwa.curselection()
+
+    if zaznaczenie:
+        indeks = zaznaczenie[0]
+        przedsiebiorstwo = service.przedsiebiorstwa[indeks]
+
+        entry_nazwa.delete(0, tk.END)
+        entry_miasto.delete(0, tk.END)
+        entry_liczba_klientow.delete(0, tk.END)
+        entry_x_przedsiebiorstwa.delete(0, tk.END)
+        entry_y_przedsiebiorstwa.delete(0, tk.END)
+
+        entry_nazwa.insert(0, przedsiebiorstwo.nazwa)
+        entry_miasto.insert(0, przedsiebiorstwo.miasto)
+        entry_liczba_klientow.insert(0, przedsiebiorstwo.liczba_klientow)
+        entry_x_przedsiebiorstwa.insert(0, przedsiebiorstwo.x)
+        entry_y_przedsiebiorstwa.insert(0, przedsiebiorstwo.y)
+
+        button_dodaj.config(
+            text="Zapisz zmiany",
+            command=lambda: zapisz_zmiany_przedsiebiorstwa(indeks)
+        )
+
+
+def zapisz_zmiany_przedsiebiorstwa(indeks):
+    service.przedsiebiorstwa[indeks].nazwa = entry_nazwa.get()
+    service.przedsiebiorstwa[indeks].miasto = entry_miasto.get()
+    service.przedsiebiorstwa[indeks].liczba_klientow = entry_liczba_klientow.get()
+    service.przedsiebiorstwa[indeks].x = entry_x_przedsiebiorstwa.get()
+    service.przedsiebiorstwa[indeks].y = entry_y_przedsiebiorstwa.get()
+
+    odswiez_liste_przedsiebiorstw()
+
+    entry_nazwa.delete(0, tk.END)
+    entry_miasto.delete(0, tk.END)
+    entry_liczba_klientow.delete(0, tk.END)
+    entry_x_przedsiebiorstwa.delete(0, tk.END)
+    entry_y_przedsiebiorstwa.delete(0, tk.END)
+
+    button_dodaj.config(
+        text="Dodaj przedsiębiorstwo",
+        command=dodaj_przedsiebiorstwo
+    )
+
+
 
 def usun_pracownika():
     zaznaczenie = listbox_pracownicy.curselection()
@@ -181,6 +227,8 @@ label_tytul.pack(pady=20)
 
 ramka_glowna = tk.Frame(root)
 ramka_glowna.pack(pady=10)
+ramka_dol = tk.Frame(root)
+ramka_dol.pack(pady=5)
 
 
 ramka_formularz = tk.Frame(ramka_glowna)
@@ -194,9 +242,6 @@ ramka_lista.grid(row=0, column=1, padx=20)
 ramka_pracownicy = tk.Frame(ramka_glowna)
 ramka_pracownicy.grid(row=0, column=2, padx=20)
 
-
-ramka_klienci = tk.Frame(root)
-ramka_klienci.pack(pady=5)
 
 
 # FORMULARZ PRZEDSIĘBIORSTWA
@@ -251,6 +296,15 @@ button_usun = tk.Button(
     command=usun_przedsiebiorstwo
 )
 button_usun.grid(row=7, column=0, columnspan=2, pady=5)
+
+
+button_edytuj = tk.Button(
+    ramka_formularz,
+    text="Edytuj przedsiębiorstwo",
+    command=edytuj_przedsiebiorstwo
+)
+button_edytuj.grid(row=8, column=0, columnspan=2, pady=5)
+
 
 
 # LISTA PRZEDSIĘBIORSTW
@@ -350,6 +404,9 @@ entry_y_pracownika.grid(row=6, column=1)
 
 # KLIENCI
 
+ramka_klienci = tk.Frame(ramka_dol)
+ramka_klienci.grid(row=0, column=0, padx=20)
+
 label_klienci = tk.Label(
     ramka_klienci,
     text="Klienci",
@@ -420,8 +477,8 @@ listbox_klienci.grid(row=9, column=0, columnspan=2, pady=10)
 
 # WYSZUKIWANIE
 
-ramka_wyniki = tk.Frame(root)
-ramka_wyniki.pack(pady=10)
+ramka_wyniki = tk.Frame(ramka_dol)
+ramka_wyniki.grid(row=0, column=1, padx=20)
 
 label_wyszukaj = tk.Label(
     ramka_wyniki,
