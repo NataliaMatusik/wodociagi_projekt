@@ -84,10 +84,32 @@ def dodaj_klienta():
     entry_adres_klienta.delete(0, tk.END)
     entry_firma_klienta.delete(0, tk.END)
 
+
+def pokaz_klientow_przedsiebiorstwa():
+    nazwa_przedsiebiorstwa = entry_wyszukaj_przedsiebiorstwo.get()
+
+    listbox_wyniki.delete(0, tk.END)
+
+    for klient in klient_service.pobierz_wszystkich():
+        if klient.przedsiebiorstwo == nazwa_przedsiebiorstwa:
+            listbox_wyniki.insert(tk.END, klient)
+
+
+def pokaz_pracownikow_przedsiebiorstwa():
+    nazwa_przedsiebiorstwa = entry_wyszukaj_przedsiebiorstwo.get()
+
+    listbox_wyniki.delete(0, tk.END)
+
+    for pracownik in pracownik_service.pobierz_wszystkich():
+        if pracownik.przedsiebiorstwo == nazwa_przedsiebiorstwa:
+            listbox_wyniki.insert(tk.END, pracownik)
+
+
+
 root = tk.Tk()
 
 root.title("System przedsiębiorstw wodociągowych")
-root.geometry("1000x700")
+root.geometry("1300x900")
 service = PrzedsiebiorstwoService()
 pracownik_service = PracownikService()
 klient_service = KlientService()
@@ -114,7 +136,7 @@ ramka_lista.grid(row=0, column=1, padx=20)
 ramka_pracownicy = tk.Frame(ramka_glowna)
 ramka_pracownicy.grid(row=0, column=2, padx=20)
 ramka_klienci = tk.Frame(root)
-ramka_klienci.pack(pady=20)
+ramka_klienci.pack(pady=5)
 
 
 label_formularz = tk.Label(
@@ -178,8 +200,8 @@ label_lista.grid(row=0, column=0, pady=10)
 
 listbox_przedsiebiorstwa = tk.Listbox(
     ramka_lista,
-    width=50,
-    height=15
+    width=45,
+    height=5
 )
 
 listbox_przedsiebiorstwa.grid(row=1, column=0)
@@ -231,8 +253,8 @@ button_dodaj_pracownika.grid(
 
 listbox_pracownicy = tk.Listbox(
     ramka_pracownicy,
-    width=40,
-    height=10
+    width=35,
+    height=4
 )
 listbox_pracownicy.grid(row=6, column=0, columnspan=2, pady=10)
 
@@ -286,10 +308,59 @@ button_dodaj_klienta.grid(
 
 listbox_klienci = tk.Listbox(
     ramka_klienci,
-    width=80,
-    height=8
+    width=70,
+    height=4
 )
 listbox_klienci.grid(row=6, column=0, columnspan=2, pady=10)
+
+
+ramka_wyniki = tk.Frame(root)
+ramka_wyniki.pack(pady=10)
+
+label_wyszukaj = tk.Label(
+    ramka_wyniki,
+    text="Wyszukaj dane przedsiębiorstwa",
+    font=("Arial", 12, "bold")
+)
+label_wyszukaj.grid(row=0, column=0, columnspan=3, pady=5)
+
+label_wyszukaj_przedsiebiorstwo = tk.Label(
+    ramka_wyniki,
+    text="Nazwa przedsiębiorstwa:"
+)
+label_wyszukaj_przedsiebiorstwo.grid(row=1, column=0, sticky="w")
+
+entry_wyszukaj_przedsiebiorstwo = tk.Entry(ramka_wyniki)
+entry_wyszukaj_przedsiebiorstwo.grid(row=1, column=1)
+
+button_pokaz_klientow = tk.Button(
+    ramka_wyniki,
+    text="Pokaż klientów",
+    command=pokaz_klientow_przedsiebiorstwa
+)
+button_pokaz_klientow.grid(row=1, column=2, padx=5)
+
+
+button_pokaz_pracownikow = tk.Button(
+    ramka_wyniki,
+    text="Pokaż pracowników",
+    command=pokaz_pracownikow_przedsiebiorstwa
+)
+
+button_pokaz_pracownikow.grid(
+    row=1,
+    column=3,
+    padx=5
+)
+
+
+
+listbox_wyniki = tk.Listbox(
+    ramka_wyniki,
+    width=80,
+    height=3
+)
+listbox_wyniki.grid(row=2, column=0, columnspan=4, pady=10)
 
 
 
