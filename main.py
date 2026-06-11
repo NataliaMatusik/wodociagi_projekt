@@ -1,6 +1,7 @@
 import tkinter as tk
 from services.przedsiebiorstwo_service import PrzedsiebiorstwoService
 from services.pracownik_service import PracownikService
+from services.klient_service import KlientService
 
 
 def dodaj_przedsiebiorstwo():
@@ -60,12 +61,36 @@ def dodaj_pracownika():
     entry_firma_pracownika.delete(0, tk.END)
 
 
+def dodaj_klienta():
+    imie = entry_imie_klienta.get()
+    nazwisko = entry_nazwisko_klienta.get()
+    adres = entry_adres_klienta.get()
+    przedsiebiorstwo = entry_firma_klienta.get()
+
+    klient_service.dodaj_klienta(
+        imie,
+        nazwisko,
+        adres,
+        przedsiebiorstwo
+    )
+
+    listbox_klienci.delete(0, tk.END)
+
+    for klient in klient_service.pobierz_wszystkich():
+        listbox_klienci.insert(tk.END, klient)
+
+    entry_imie_klienta.delete(0, tk.END)
+    entry_nazwisko_klienta.delete(0, tk.END)
+    entry_adres_klienta.delete(0, tk.END)
+    entry_firma_klienta.delete(0, tk.END)
+
 root = tk.Tk()
 
 root.title("System przedsiębiorstw wodociągowych")
 root.geometry("1000x700")
 service = PrzedsiebiorstwoService()
 pracownik_service = PracownikService()
+klient_service = KlientService()
 
 
 label_tytul = tk.Label(
@@ -88,6 +113,8 @@ ramka_lista = tk.Frame(ramka_glowna)
 ramka_lista.grid(row=0, column=1, padx=20)
 ramka_pracownicy = tk.Frame(ramka_glowna)
 ramka_pracownicy.grid(row=0, column=2, padx=20)
+ramka_klienci = tk.Frame(root)
+ramka_klienci.pack(pady=20)
 
 
 label_formularz = tk.Label(
@@ -208,6 +235,62 @@ listbox_pracownicy = tk.Listbox(
     height=10
 )
 listbox_pracownicy.grid(row=6, column=0, columnspan=2, pady=10)
+
+
+label_klienci = tk.Label(
+    ramka_klienci,
+    text="Klienci",
+    font=("Arial", 12, "bold")
+)
+label_klienci.grid(row=0, column=0, columnspan=2, pady=10)
+
+label_imie_klienta = tk.Label(ramka_klienci, text="Imię:")
+entry_imie_klienta = tk.Entry(ramka_klienci)
+
+label_nazwisko_klienta = tk.Label(ramka_klienci, text="Nazwisko:")
+entry_nazwisko_klienta = tk.Entry(ramka_klienci)
+
+label_adres_klienta = tk.Label(ramka_klienci, text="Adres:")
+entry_adres_klienta = tk.Entry(ramka_klienci)
+
+label_firma_klienta = tk.Label(ramka_klienci, text="Przedsiębiorstwo:")
+entry_firma_klienta = tk.Entry(ramka_klienci)
+
+label_imie_klienta.grid(row=1, column=0, sticky="w")
+entry_imie_klienta.grid(row=1, column=1)
+
+label_nazwisko_klienta.grid(row=2, column=0, sticky="w")
+entry_nazwisko_klienta.grid(row=2, column=1)
+
+label_adres_klienta.grid(row=3, column=0, sticky="w")
+entry_adres_klienta.grid(row=3, column=1)
+
+label_firma_klienta.grid(row=4, column=0, sticky="w")
+entry_firma_klienta.grid(row=4, column=1)
+
+
+button_dodaj_klienta = tk.Button(
+    ramka_klienci,
+    text="Dodaj klienta",
+    command=dodaj_klienta
+)
+
+button_dodaj_klienta.grid(
+    row=5,
+    column=0,
+    columnspan=2,
+    pady=5
+)
+
+
+
+listbox_klienci = tk.Listbox(
+    ramka_klienci,
+    width=80,
+    height=8
+)
+listbox_klienci.grid(row=6, column=0, columnspan=2, pady=10)
+
 
 
 root.mainloop()
