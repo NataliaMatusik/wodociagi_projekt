@@ -1,7 +1,10 @@
 import tkinter as tk
+import os
+import webbrowser
 from services.przedsiebiorstwo_service import PrzedsiebiorstwoService
 from services.pracownik_service import PracownikService
 from services.klient_service import KlientService
+from services.mapa_service import generuj_mape
 
 
 def odswiez_liste_przedsiebiorstw():
@@ -304,6 +307,17 @@ def pokaz_pracownikow_przedsiebiorstwa():
         if pracownik.przedsiebiorstwo == nazwa_przedsiebiorstwa:
             listbox_wyniki.insert(tk.END, pracownik)
 
+
+
+def pokaz_mape():
+    generuj_mape(
+        service.pobierz_wszystkie(),
+        klient_service.pobierz_wszystkich(),
+        pracownik_service.pobierz_wszystkich()
+    )
+
+    sciezka = os.path.abspath("mapa.html")
+    webbrowser.open(sciezka)
 
 root = tk.Tk()
 
@@ -630,6 +644,20 @@ listbox_wyniki = tk.Listbox(
     height=2
 )
 listbox_wyniki.grid(row=2, column=0, columnspan=4, pady=10)
+
+
+button_mapa = tk.Button(
+    ramka_wyniki,
+    text="Generuj mapę",
+    command=pokaz_mape
+)
+
+button_mapa.grid(
+    row=3,
+    column=0,
+    columnspan=4,
+    pady=5
+)
 
 
 root.mainloop()
