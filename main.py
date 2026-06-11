@@ -1,9 +1,45 @@
 import tkinter as tk
+from services.przedsiebiorstwo_service import PrzedsiebiorstwoService
+
+def dodaj_przedsiebiorstwo():
+    nazwa = entry_nazwa.get()
+    miasto = entry_miasto.get()
+    liczba_klientow = entry_liczba_klientow.get()
+
+    service.dodaj_przedsiebiorstwo(
+        nazwa,
+        miasto,
+        liczba_klientow
+    )
+
+    listbox_przedsiebiorstwa.delete(0, tk.END)
+
+    for przedsiebiorstwo in service.pobierz_wszystkie():
+        listbox_przedsiebiorstwa.insert(tk.END, przedsiebiorstwo)
+
+    entry_nazwa.delete(0, tk.END)
+    entry_miasto.delete(0, tk.END)
+    entry_liczba_klientow.delete(0, tk.END)
+
+def usun_przedsiebiorstwo():
+    zaznaczenie = listbox_przedsiebiorstwa.curselection()
+
+    if zaznaczenie:
+        indeks = zaznaczenie[0]
+        service.przedsiebiorstwa.pop(indeks)
+
+        listbox_przedsiebiorstwa.delete(0, tk.END)
+
+        for przedsiebiorstwo in service.pobierz_wszystkie():
+            listbox_przedsiebiorstwa.insert(tk.END, przedsiebiorstwo)
+
+
 
 root = tk.Tk()
 
 root.title("System przedsiębiorstw wodociągowych")
 root.geometry("1000x700")
+service = PrzedsiebiorstwoService()
 
 
 label_tytul = tk.Label(
@@ -50,6 +86,32 @@ entry_miasto.grid(row=2, column=1)
 
 label_liczba_klientow.grid(row=3, column=0, sticky="w")
 entry_liczba_klientow.grid(row=3, column=1)
+
+button_dodaj = tk.Button(
+    ramka_formularz,
+    text="Dodaj przedsiębiorstwo",
+    command=dodaj_przedsiebiorstwo
+)
+
+button_dodaj.grid(
+    row=4,
+    column=0,
+    columnspan=2,
+    pady=10
+)
+
+button_usun = tk.Button(
+    ramka_formularz,
+    text="Usuń przedsiębiorstwo",
+    command=usun_przedsiebiorstwo
+)
+
+button_usun.grid(
+    row=5,
+    column=0,
+    columnspan=2,
+    pady=5
+)
 
 
 label_lista = tk.Label(
