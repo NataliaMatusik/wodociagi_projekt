@@ -115,6 +115,56 @@ def usun_pracownika():
         odswiez_liste_pracownikow()
 
 
+def edytuj_pracownika():
+    zaznaczenie = listbox_pracownicy.curselection()
+
+    if zaznaczenie:
+        indeks = zaznaczenie[0]
+        pracownik = pracownik_service.pracownicy[indeks]
+
+        entry_imie.delete(0, tk.END)
+        entry_nazwisko.delete(0, tk.END)
+        entry_stanowisko.delete(0, tk.END)
+        entry_firma_pracownika.delete(0, tk.END)
+        entry_x_pracownika.delete(0, tk.END)
+        entry_y_pracownika.delete(0, tk.END)
+
+        entry_imie.insert(0, pracownik.imie)
+        entry_nazwisko.insert(0, pracownik.nazwisko)
+        entry_stanowisko.insert(0, pracownik.stanowisko)
+        entry_firma_pracownika.insert(0, pracownik.przedsiebiorstwo)
+        entry_x_pracownika.insert(0, pracownik.x)
+        entry_y_pracownika.insert(0, pracownik.y)
+
+        button_dodaj_pracownika.config(
+            text="Zapisz zmiany",
+            command=lambda: zapisz_zmiany_pracownika(indeks)
+        )
+
+
+def zapisz_zmiany_pracownika(indeks):
+    pracownik_service.pracownicy[indeks].imie = entry_imie.get()
+    pracownik_service.pracownicy[indeks].nazwisko = entry_nazwisko.get()
+    pracownik_service.pracownicy[indeks].stanowisko = entry_stanowisko.get()
+    pracownik_service.pracownicy[indeks].przedsiebiorstwo = entry_firma_pracownika.get()
+    pracownik_service.pracownicy[indeks].x = entry_x_pracownika.get()
+    pracownik_service.pracownicy[indeks].y = entry_y_pracownika.get()
+
+    odswiez_liste_pracownikow()
+
+    entry_imie.delete(0, tk.END)
+    entry_nazwisko.delete(0, tk.END)
+    entry_stanowisko.delete(0, tk.END)
+    entry_firma_pracownika.delete(0, tk.END)
+    entry_x_pracownika.delete(0, tk.END)
+    entry_y_pracownika.delete(0, tk.END)
+
+    button_dodaj_pracownika.config(
+        text="Dodaj pracownika",
+        command=dodaj_pracownika
+    )
+
+
 
 def dodaj_pracownika():
     imie = entry_imie.get()
@@ -184,7 +234,55 @@ def usun_klienta():
         for klient in klient_service.pobierz_wszystkich():
             listbox_klienci.insert(tk.END, klient)
 
+def edytuj_klienta():
+    zaznaczenie = listbox_klienci.curselection()
 
+    if zaznaczenie:
+        indeks = zaznaczenie[0]
+        klient = klient_service.klienci[indeks]
+
+        entry_imie_klienta.delete(0, tk.END)
+        entry_nazwisko_klienta.delete(0, tk.END)
+        entry_adres_klienta.delete(0, tk.END)
+        entry_firma_klienta.delete(0, tk.END)
+        entry_x_klienta.delete(0, tk.END)
+        entry_y_klienta.delete(0, tk.END)
+
+        entry_imie_klienta.insert(0, klient.imie)
+        entry_nazwisko_klienta.insert(0, klient.nazwisko)
+        entry_adres_klienta.insert(0, klient.adres)
+        entry_firma_klienta.insert(0, klient.przedsiebiorstwo)
+        entry_x_klienta.insert(0, klient.x)
+        entry_y_klienta.insert(0, klient.y)
+
+        button_dodaj_klienta.config(
+            text="Zapisz zmiany",
+            command=lambda: zapisz_zmiany_klienta(indeks)
+        )
+
+
+
+def zapisz_zmiany_klienta(indeks):
+    klient_service.klienci[indeks].imie = entry_imie_klienta.get()
+    klient_service.klienci[indeks].nazwisko = entry_nazwisko_klienta.get()
+    klient_service.klienci[indeks].adres = entry_adres_klienta.get()
+    klient_service.klienci[indeks].przedsiebiorstwo = entry_firma_klienta.get()
+    klient_service.klienci[indeks].x = entry_x_klienta.get()
+    klient_service.klienci[indeks].y = entry_y_klienta.get()
+
+    odswiez_liste_klientow()
+
+    entry_imie_klienta.delete(0, tk.END)
+    entry_nazwisko_klienta.delete(0, tk.END)
+    entry_adres_klienta.delete(0, tk.END)
+    entry_firma_klienta.delete(0, tk.END)
+    entry_x_klienta.delete(0, tk.END)
+    entry_y_klienta.delete(0, tk.END)
+
+    button_dodaj_klienta.config(
+        text="Dodaj klienta",
+        command=dodaj_klienta
+    )
 
 
 def pokaz_klientow_przedsiebiorstwa():
@@ -386,13 +484,20 @@ button_usun_pracownika = tk.Button(
 button_usun_pracownika.grid(row=8, column=0, columnspan=2, pady=5)
 
 
+button_edytuj_pracownika = tk.Button(
+    ramka_pracownicy,
+    text="Edytuj pracownika",
+    command=edytuj_pracownika
+)
+button_edytuj_pracownika.grid(row=9, column=0, columnspan=2, pady=5)
+
 
 listbox_pracownicy = tk.Listbox(
     ramka_pracownicy,
     width=35,
     height=2
 )
-listbox_pracownicy.grid(row=9, column=0, columnspan=2, pady=3)
+listbox_pracownicy.grid(row=10, column=0, columnspan=2, pady=5)
 
 label_x_pracownika.grid(row=5, column=0, sticky="w")
 entry_x_pracownika.grid(row=5, column=1)
@@ -465,6 +570,12 @@ button_usun_klienta = tk.Button(
 button_usun_klienta.grid(row=8, column=0, columnspan=2, pady=5)
 
 
+button_edytuj_klienta = tk.Button(
+    ramka_klienci,
+    text="Edytuj klienta",
+    command=edytuj_klienta
+)
+button_edytuj_klienta.grid(row=9, column=0, columnspan=2, pady=5)
 
 
 listbox_klienci = tk.Listbox(
@@ -472,7 +583,10 @@ listbox_klienci = tk.Listbox(
     width=70,
     height=2
 )
-listbox_klienci.grid(row=9, column=0, columnspan=2, pady=10)
+listbox_klienci.grid(row=10, column=0, columnspan=2, pady=5)
+
+
+
 
 
 # WYSZUKIWANIE
