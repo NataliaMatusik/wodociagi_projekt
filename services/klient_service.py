@@ -10,13 +10,17 @@ class KlientService:
             imie,
             nazwisko,
             adres,
-            przedsiebiorstwo
+            przedsiebiorstwo,
+            x,
+            y
     ):
         nowy_klient = Klient(
             imie,
             nazwisko,
             adres,
-            przedsiebiorstwo
+            przedsiebiorstwo,
+            x,
+            y
         )
 
         self.klienci.append(nowy_klient)

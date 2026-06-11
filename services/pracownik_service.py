@@ -10,13 +10,17 @@ class PracownikService:
             imie,
             nazwisko,
             stanowisko,
-            przedsiebiorstwo
+            przedsiebiorstwo,
+            x,
+            y
     ):
         nowy_pracownik = Pracownik(
             imie,
             nazwisko,
             stanowisko,
-            przedsiebiorstwo
+            przedsiebiorstwo,
+            x,
+            y
         )
 
         self.pracownicy.append(nowy_pracownik)
